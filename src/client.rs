@@ -319,15 +319,15 @@ mod tests {
         client
             .deposit(TransactionID::new(1), dec!(10.0).try_into().unwrap())
             .expect("deposit should succeed");
-        
+
         client
             .dispute(TransactionID::new(1))
             .expect("first dispute should succeed");
-        
+
         client
             .dispute(TransactionID::new(1))
             .expect_err("second dispute should fail");
-        
+
         assert_eq!(client.total(), dec!(10.0));
         assert_eq!(client.held(), dec!(10.0));
         assert_eq!(client.available(), dec!(0.0));
@@ -352,11 +352,11 @@ mod tests {
         client
             .deposit(TransactionID::new(1), dec!(10.0).try_into().unwrap())
             .expect("deposit should succeed");
-        
+
         client
             .resolve(TransactionID::new(1))
             .expect_err("resolve should fail for undisputed transaction");
-        
+
         assert_eq!(client.total(), dec!(10.0));
         assert_eq!(client.held(), dec!(0.0));
         assert_eq!(client.available(), dec!(10.0));
@@ -382,11 +382,11 @@ mod tests {
         client
             .deposit(TransactionID::new(1), dec!(10.0).try_into().unwrap())
             .expect("deposit should succeed");
-        
+
         client
             .chargeback(TransactionID::new(1))
             .expect_err("chargeback should fail for undisputed transaction");
-        
+
         assert_eq!(client.total(), dec!(10.0));
         assert_eq!(client.held(), dec!(0.0));
         assert_eq!(client.available(), dec!(10.0));
@@ -401,8 +401,12 @@ mod tests {
         client
             .deposit(TransactionID::new(1), dec!(100.0).try_into().unwrap())
             .expect("initial deposit should succeed");
-        client.dispute(TransactionID::new(1)).expect("dispute should succeed");
-        client.chargeback(TransactionID::new(1)).expect("chargeback should succeed");
+        client
+            .dispute(TransactionID::new(1))
+            .expect("dispute should succeed");
+        client
+            .chargeback(TransactionID::new(1))
+            .expect("chargeback should succeed");
         assert_eq!(client.locked(), true);
 
         // Try deposit
