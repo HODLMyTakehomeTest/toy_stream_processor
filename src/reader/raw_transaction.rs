@@ -51,6 +51,7 @@ impl TryFrom<RawTransaction> for Transaction {
     type Error = RawTransactionConvertError;
 
     fn try_from(value: RawTransaction) -> Result<Self, Self::Error> {
+        // Map the raw transaction type to a transaction
         Ok(match value.transaction_type {
             RawTransactionType::Deposit => Transaction::Deposit(Deposit {
                 amount: get_transaction_amount(&value)?,

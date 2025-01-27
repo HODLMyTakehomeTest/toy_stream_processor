@@ -9,6 +9,7 @@ use crate::{
     transaction::Transaction,
 };
 
+/// A transaction processor that manages client accounts and handles their transactions.
 pub struct Processor {
     clients: HashMap<ClientID, Client>,
 }
@@ -20,6 +21,8 @@ impl Processor {
         }
     }
 
+    /// Processes a single transaction for a client, creating the client account if it doesn't exist.
+    /// Returns an error if the transaction fails to be processed.
     pub fn handle_transaction(&mut self, transaction: Transaction) -> Result<(), ProcessingError> {
         let client = self.clients.entry(transaction.client()).or_default();
 
@@ -34,6 +37,8 @@ impl Processor {
         }
     }
 
+    /// Returns an iterator over all client accounts, providing their current status including
+    /// available funds, held funds, total balance, and whether the account is locked.
     pub fn status_entries<'a>(&'a self) -> impl Iterator<Item = ProcessorStatusEntry> + 'a {
         self.clients
             .iter()

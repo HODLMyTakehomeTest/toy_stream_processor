@@ -5,6 +5,7 @@ use thiserror::Error;
 
 use crate::{ids::TransactionID, positive_decimal::PositiveDecimal};
 
+/// A client account that tracks balances and processes transactions.
 #[derive(Debug)]
 pub struct Client {
     total: Decimal,
@@ -36,6 +37,9 @@ pub enum ProcessingError {
 }
 
 impl Client {
+    /// Creates a new client account with zero balance.
+    /// 
+    /// This method initializes a new client account with a total balance, held balance, and locked status all set to zero.
     pub fn new() -> Self {
         Self {
             total: Decimal::ZERO,
@@ -61,6 +65,7 @@ impl Client {
         self.locked
     }
 
+    /// Checks if the account is locked and returns an error if it is.
     fn ensure_not_locked(&self) -> Result<(), ProcessingError> {
         match self.locked {
             true => Err(ProcessingError::AccountLocked),
@@ -68,6 +73,11 @@ impl Client {
         }
     }
 
+    /// Processes a deposit transaction, adding funds to the account.
+    /// 
+    /// # Errors
+    /// - `AccountLocked`: Account is locked and cannot process transactions
+    /// - `DuplicateTransactionID`: Transaction ID already exists
     pub fn deposit(
         &mut self,
         tx: TransactionID,
@@ -95,6 +105,11 @@ impl Client {
         Ok(())
     }
 
+    /// Processes a withdrawal transaction, removing funds if sufficient balance exists.
+    /// 
+    /// # Errors
+    /// - `AccountLocked`: Account is locked and cannot process transactions
+    /// - `InsufficientFunds`: Available balance is less than withdrawal amount
     pub fn withdrawal(
         &mut self,
         _tx: TransactionID,
@@ -118,6 +133,12 @@ impl Client {
         Ok(())
     }
 
+    /// Marks a deposit transaction as disputed, holding its funds.
+    /// 
+    /// # Errors
+    /// - `AccountLocked`: Account is locked and cannot process transactions
+    /// - `DepositNotFound`: Referenced deposit transaction does not exist
+    /// - `AlreadyDisputed`: Deposit is already under dispute
     pub fn dispute(&mut self, tx: TransactionID) -> Result<(), ProcessingError> {
         // ensure not locked
         self.ensure_not_locked()?;
@@ -140,6 +161,12 @@ impl Client {
         Ok(())
     }
 
+    /// Resolves a dispute on a deposit transaction, releasing held funds.
+    /// 
+    /// # Errors
+    /// - `AccountLocked`: Account is locked and cannot process transactions
+    /// - `DepositNotFound`: Referenced deposit transaction does not exist
+    /// - `NotDisputed`: Deposit is not under dispute
     pub fn resolve(&mut self, tx: TransactionID) -> Result<(), ProcessingError> {
         // ensure not locked
         self.ensure_not_locked()?;
@@ -162,6 +189,12 @@ impl Client {
         Ok(())
     }
 
+    /// Processes a chargeback on a disputed transaction, removing funds and locking the account.
+    /// 
+    /// # Errors
+    /// - `AccountLocked`: Account is locked and cannot process transactions
+    /// - `DepositNotFound`: Referenced deposit transaction does not exist
+    /// - `NotDisputed`: Deposit is not under dispute
     pub fn chargeback(&mut self, tx: TransactionID) -> Result<(), ProcessingError> {
         // ensure not locked
         self.ensure_not_locked()?;
