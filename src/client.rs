@@ -38,7 +38,7 @@ pub enum ProcessingError {
 
 impl Client {
     /// Creates a new client account with zero balance.
-    /// 
+    ///
     /// This method initializes a new client account with a total balance, held balance, and locked status all set to zero.
     pub fn new() -> Self {
         Self {
@@ -74,7 +74,7 @@ impl Client {
     }
 
     /// Processes a deposit transaction, adding funds to the account.
-    /// 
+    ///
     /// # Errors
     /// - `AccountLocked`: Account is locked and cannot process transactions
     /// - `DuplicateTransactionID`: Transaction ID already exists
@@ -106,7 +106,7 @@ impl Client {
     }
 
     /// Processes a withdrawal transaction, removing funds if sufficient balance exists.
-    /// 
+    ///
     /// # Errors
     /// - `AccountLocked`: Account is locked and cannot process transactions
     /// - `InsufficientFunds`: Available balance is less than withdrawal amount
@@ -134,7 +134,7 @@ impl Client {
     }
 
     /// Marks a deposit transaction as disputed, holding its funds.
-    /// 
+    ///
     /// # Errors
     /// - `AccountLocked`: Account is locked and cannot process transactions
     /// - `DepositNotFound`: Referenced deposit transaction does not exist
@@ -162,7 +162,7 @@ impl Client {
     }
 
     /// Resolves a dispute on a deposit transaction, releasing held funds.
-    /// 
+    ///
     /// # Errors
     /// - `AccountLocked`: Account is locked and cannot process transactions
     /// - `DepositNotFound`: Referenced deposit transaction does not exist
@@ -190,7 +190,7 @@ impl Client {
     }
 
     /// Processes a chargeback on a disputed transaction, removing funds and locking the account.
-    /// 
+    ///
     /// # Errors
     /// - `AccountLocked`: Account is locked and cannot process transactions
     /// - `DepositNotFound`: Referenced deposit transaction does not exist

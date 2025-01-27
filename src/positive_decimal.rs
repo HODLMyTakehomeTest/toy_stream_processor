@@ -4,10 +4,10 @@ use serde::Deserialize;
 use thiserror::Error;
 
 /// A wrapper type around `Decimal` that guarantees the value is strictly positive (greater than zero).
-/// 
+///
 /// This type is used to ensure that transaction amounts are always positive at compile time.
 /// It implements necessary traits for serialization/deserialization and common operations.
-/// 
+///
 /// # Examples
 /// ```
 /// use rust_decimal_macros::dec;
