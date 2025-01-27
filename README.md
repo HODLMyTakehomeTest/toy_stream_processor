@@ -1,4 +1,4 @@
-# Rust Coding Test
+# Rust Coding Test [![Cargo Build & Test](https://github.com/HODLMyTakehomeTest/toy_stream_processor/actions/workflows/ci.yml/badge.svg)](https://github.com/HODLMyTakehomeTest/toy_stream_processor/actions/workflows/ci.yml)
 ## Scoring checklist
 ### Basics
 Basics are covered by github actions.
