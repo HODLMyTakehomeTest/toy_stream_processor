@@ -1,3 +1,19 @@
+# Rust Coding Test
+## Scoring checklist
+### Basics
+- [x] Code compiles
+- [x] Code reads and writes data as expected:
+CLI interface: `cargo run -- transactions.csv > accounts.csv`
+- [x] Code is properly formatted
+
+Features
+
+
+Assumptions
+
+
+
+
 # Issues
 - No dispute/resolve/cashback ID
 
