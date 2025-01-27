@@ -443,4 +443,31 @@ mod tests {
         assert_eq!(client.available(), dec!(0.0));
         assert_eq!(client.locked(), true);
     }
+
+    #[test]
+    fn test_duplicate_transaction_id() {
+        let mut client = Client::new();
+
+        client
+            .deposit(TransactionID::new(1), dec!(10.0).try_into().unwrap())
+            .expect("first deposit should succeed");
+        assert_eq!(client.total(), dec!(10.0));
+        assert_eq!(client.available(), dec!(10.0));
+
+        let result = client.deposit(TransactionID::new(1), dec!(20.0).try_into().unwrap());
+        assert!(matches!(
+            result,
+            Err(ProcessingError::DuplicateTransactionID)
+        ));
+        assert_eq!(
+            client.total(),
+            dec!(10.0),
+            "balance should remain unchanged"
+        );
+        assert_eq!(
+            client.available(),
+            dec!(10.0),
+            "available funds should remain unchanged"
+        );
+    }
 }
