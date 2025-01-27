@@ -64,6 +64,14 @@ The following cases are covered:
     - `main.rs` - Glues everything together
 
 # Assumptions / remarks
+## Invalid transactions are ignored
+Invalid transactions are ignored and not processed.
+When a transaction is invalid a warning is printed to `stderr`.
+
+Example of an invalid transaction:
+- Invalid structure (missing fields)
+- Invalid transaction, for example dispute a non-existent transaction
+
 ## Only deposits are allowed to be disputed
 It's not clear from the problem statement if only deposits are allowed to be disputed.
 I've assumed that it is because I don't think it makes a lot of sense to dispute withdrawals.
